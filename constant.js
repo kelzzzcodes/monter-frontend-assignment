@@ -19,7 +19,7 @@ export const dialogueData = [
 ]
 
 // Adding more data objects to reach a total of 20
-for (let i = 3; i < 20; i++) {
+for (let i = 3; i <= 50; i++) {
   dialogueData.push({
     date: { year: '1/1/2022', time: '12:00:00 PM' },
     reportName: `Report_${i + 1}.csv`,
@@ -27,4 +27,6 @@ for (let i = 3; i < 20; i++) {
   })
 }
 
-console.log(dialogueData)
+// console.log( dialogueData)
+let myVariable = dialogueData
+console.log(typeof myVariable)
