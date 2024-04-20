@@ -5,14 +5,23 @@ import { dialogueData, dialogueHeading } from '@/constant'
 
 const DialogueBox = ({ onClick }) => {
   const [page, setPage] = useState(1)
+  const [rowsPerPage, setRowsPerPage] = useState('5')
 
   const selectPage = (selectedPage) => {
+    const totalPages = Math.ceil(dialogueData.length / rowsPerPage)
     if (
       selectedPage >= 1 &&
-      selectedPage <= dialogueData.length / 10 &&
+      selectedPage <= totalPages &&
       selectedPage !== page
-    );
-    setPage(selectedPage)
+    ) {
+      setPage(selectedPage)
+    }
+  }
+
+  const handleRowsPerPage = (e) => {
+    const newRowsPerPage = Number(e.target.value)
+    setPage(1) // Reset page to 1 when rows per page changes
+    setRowsPerPage(newRowsPerPage)
   }
 
   return (
@@ -50,7 +59,7 @@ const DialogueBox = ({ onClick }) => {
               {dialogueData.length > 0 && (
                 <ul className=" text-[#929292]">
                   {dialogueData
-                    .slice(page * 10 - 10, page * 10)
+                    .slice(page * rowsPerPage - rowsPerPage, page * rowsPerPage)
                     .map((item, index) => (
                       <li
                         key={index}
@@ -75,16 +84,17 @@ const DialogueBox = ({ onClick }) => {
         </div>
         <div className=" w-full absolute bottom-0 border-t-2 border-[#f8f8f8] pt-2">
           {dialogueData.length > 0 && (
-            <div className="w-full grid grid-cols-2 gap-2 h-14 mx-auto items-center justify-center">
-              <div className=" text-black flex items-center justify-center ">
+            <div className="w-full grid grid-cols-2 gap-2 h-14 items-center justify-center px-20">
+              <div className=" text-black flex items-center justify-center">
                 <button
+                  disabled={page < 1}
                   onClick={() => selectPage(page - 1)}
-                  className={`${page > 1 ? 'flex items-center' : 'hidden'} `}
+                className={`${page > 1 ? '' : 'text-gray-400 cursor-default'} flex items-center `}
                 >
                   <ChevronFirst />
                   <span>prev</span>
                 </button>
-                {[...Array(Math.ceil(dialogueData.length / 10))].map(
+                {[...Array(Math.ceil(dialogueData.length / rowsPerPage))].map(
                   (_, index) => (
                     <span
                       onClick={() => selectPage(index + 1)}
@@ -98,21 +108,27 @@ const DialogueBox = ({ onClick }) => {
                   ),
                 )}
                 <button
+                  disabled={page > dialogueData.length / rowsPerPage}
                   onClick={() => selectPage(page + 1)}
                   className={`${
-                    page < dialogueData.length / 10
-                      ? 'flex items-center'
-                      : 'hidden'
-                  } `}
+                    page > dialogueData.length / rowsPerPage
+                      ? 'text-gray-400 cursor-default'
+                      : ""
+                  } flex items-center `}
                 >
                   <span>Next</span>
                   <ChevronLast />
                 </button>
               </div>
-              <div className="text-black flex items-center ">
+              <div className="text-black flex items-center justify-end ">
                 <span>Rows per page</span>
-                <select className="p-2 ml-1 rounded-lg bg-transparent border-2">
-                  <option>10</option>
+                <select
+                  className="p-2 ml-1 rounded-lg bg-transparent border-2"
+                  value={rowsPerPage}
+                  onChange={handleRowsPerPage}
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
                 </select>
               </div>
             </div>
