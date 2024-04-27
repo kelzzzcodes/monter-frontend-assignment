@@ -25,37 +25,35 @@ const DialogueBox = ({ onClick }) => {
   }
 
   return (
-    <div className="bg-white min-h-[90%] min-w-[64rem] absolute top-0 mt-10 rounded-xl overflow-hidden ">
+    <div className="bg-white min-h-[90%] w-[95%] absolute top-0 mt-10 rounded-xl overflow-hidden ">
       <div className="flex flex-col items-start w-full h-full">
         <div className="w-full flex flex-col   ">
-          <div className=" p-4 flex items-center">
-            <h2 className=" mx-auto font-bold text-black text-lg">
+          <div className=" px-2 pt-4 md:p-4 flex items-center">
+            <h2 className=" mx-auto font-bold text-black  text-sm  md:text-lg">
               Recently Generated Reports
             </h2>
             <SquareX
               onClick={onClick}
-              width={30}
-              height={30}
-              className="ml-auto text-gray-600 cursor-pointer"
+              className=" w-[20px] h-[20px]  md:w-[30px] md:h-[30px] ml-auto text-gray-600 cursor-pointer"
             />
           </div>
 
-          <table className="flex flex-col">
+          <table className="flex flex-col mt-4 ">
             <div className="bg-[#f5f5f5] text-[#919191] px-4 py-2">
               <tr className="flex justify-between">
                 {dialogueHeading.map((item, index) => (
                   <th
                     key={index}
                     className={`${
-                      index === 1 ? 'w-[70%]' : 'w-[15%]'
-                    } text-left font-bold`}
+                      index === 1 ? 'w-[50%] md:w-[70%] ' : 'w-[25%] md:w-[15%]'
+                    } text-left text-xs  md:text-base px-2`}
                   >
                     {item}
                   </th>
                 ))}
               </tr>
             </div>
-            <tbody className="px-4 py-2">
+            <tbody className="p-2 md:px-4 py-2">
               {dialogueData.length > 0 && (
                 <ul className=" text-[#929292]">
                   {dialogueData
@@ -65,14 +63,15 @@ const DialogueBox = ({ onClick }) => {
                         key={index}
                         className="flex justify-between text-left py-1"
                       >
-                        <div className="w-[15%]">
+                        <div className=" w-[25%] md:w-[15%] text-xs md:text-base px-2">
                           <p>{item.date.year}</p>
                           <span>{item.date.time}</span>
                         </div>
-                        <div className="w-[70%]">
-                          <p>{item.reportName}</p>
+                        <div className="flex w-[50%] md:w-[70%] text-xs md:text-base  overflow-x-scroll px-2">
+                          <p className="">{item.reportName}</p>
                         </div>
-                        <div className="w-[15%]">
+                        <div className="w-[25%] md:w-[15%] text-xs md:text-base px-2">
+
                           <p>{item.download}</p>
                         </div>
                       </li>
@@ -82,7 +81,7 @@ const DialogueBox = ({ onClick }) => {
             </tbody>
           </table>
         </div>
-        <div className=" w-full absolute bottom-0 border-t-2 border-[#f8f8f8] pt-2">
+      <div className=" w-full absolute bottom-0 border-t-2 border-[#f8f8f8] pt-2">
           {dialogueData.length > 0 && (
             <div className="w-full grid grid-cols-2 gap-2 h-14 items-center justify-center px-20">
               <div className=" text-black flex items-center justify-center">
